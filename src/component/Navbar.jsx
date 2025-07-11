@@ -30,7 +30,7 @@ function Navbar() {
     <header
       className={`${
         change ? 'fixed' : 'scroll'
-      } px-[5%] py-2 text-white font-semibold bg-slate-50 -top-1 w-full z-50 transition-colors duration-300`}
+      } px-[5%] py-2 text-white bg-slate-50 font-semibold -top-1 w-full z-40 transition-colors duration-300`}
     >
       <div className="flex items-center justify-between text-gray-700">
         <a href="#home">
