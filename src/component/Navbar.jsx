@@ -29,7 +29,7 @@ function Navbar() {
   return (
     <header
       className={`${
-        change ? 'fixed' : 'scroll'
+        change ? 'fixed shadow-lg' : 'scroll'
       } px-[5%] py-2 text-white bg-slate-50 font-semibold -top-1 w-full z-40 transition-colors duration-300`}
     >
       <div className="flex items-center justify-between text-gray-700">

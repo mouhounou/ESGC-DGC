@@ -2,6 +2,8 @@
 import Title from './Title'
 import { formations } from '../assets'
 import { useState, useEffect } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 function Formations() {
    const [selected, setSelected] = useState('')
@@ -41,7 +43,7 @@ function Formations() {
                            setSelected(item.id)
                            setOpen(true)
                         }}
-                        className="w-full text-center py-2 cursor-pointer hover:scale-75 bg-second rounded-md font-semibold text-white mt-auto"
+                        className="w-full text-center py-2 transition-all duration-150 cursor-pointer hover:scale-75 bg-second rounded-md font-semibold text-white mt-auto"
                      >
                         En savoir plus
                      </button>
@@ -53,7 +55,7 @@ function Formations() {
          {/* Modale */}
          {open && detail && (
             <div className="fixed top-0 left-0 w-full h-screen bg-black/60 z-50 flex items-center justify-center">
-               <div className=" w-[90%] md:w-[70%] h-[90%] bg-white rounded-xl shadow-xl  p-4">
+               <div className=" w-[90%] md:w-[70%] h-[94%] bg-white rounded-xl shadow-xl  p-4">
                   
                   <div className = "flex items-center justify-between">
                      <span></span>
@@ -65,11 +67,59 @@ function Formations() {
                      </button>
                   </div>
 
-                  <div className='w-full h-full overflow-y-auto pt-[1rem] flex flex-col gap-3'>
+                  <div className='w-full h-[calc(100%-30px)] overflow-y-auto py-[1rem] flex flex-col gap-3'>
                      <img className='w-full h-[300px] rounded-md object-cover' src={detail.image} alt="" />
                      <h1 className="text-3xl font-bold text-first">{detail.titre}</h1>
                      <p className="text-gray-700">{detail.description}</p>
+                     {
+                        detail.modules.map((item, id) => (
+                           <div
+                              className='flex items-center gap-2 text-gray-700'
+                              key={id}
+                           >
+                              <FontAwesomeIcon icon={faCircleCheck}/>
+                              <p>
+                                 {item}
+                              </p>
+                           </div>
+                        ))
+                     }
+
+                     <h3 className='text-2xl font-semibold text-first'>Postes accessibles</h3>
+                     <div className='pl-1.5 flex flex-col gap-1'>
+                        {
+                        detail.debouches.map((item, id) => (
+                           <div
+                              className='flex items-center gap-2 text-gray-700'
+                              key={id}
+                           >
+                              <FontAwesomeIcon icon={faCircleCheck}/>
+                              <p>
+                                 {item}
+                              </p>
+                           </div>
+                        ))
+                     }
+                     </div>
                      
+
+                     <h3 className='text-2xl font-semibold text-first'>Employeurs potentiels</h3>
+                     <div className='pl-1.5 flex flex-col gap-1 pb-[2rem]'>
+                        {
+                        detail.secteurs_employeurs.map((item, id) => (
+                           <div
+                              className='flex items-center gap-2 text-gray-700'
+                              key={id}
+                           >
+                              <FontAwesomeIcon icon={faCircleCheck}/>
+                              <p>
+                                 {item}
+                              </p>
+                           </div>
+                        ))
+                     }
+                     </div>
+
                   </div>
                </div>
             </div>
