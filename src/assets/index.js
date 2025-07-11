@@ -23,6 +23,38 @@ import ressource from './ressource.jpg'
 
 
 
+export const footerSections = [
+	{
+		title: "Comptabilité & Gestion",
+		items: [
+			"Comptabilité financière",
+			"Gestion financière",
+			"Audit et contrôle de gestion",
+		],
+		link: "/location",
+	},
+
+	{
+		title: "Banque & Assurance",
+		items: [
+			"Services bancaires",
+			"Gestion de crédits",
+			"Souscription d'assurances",
+			"Gestion des risques",
+		],
+		link: "/vente",
+	},
+	{
+		title: "Ressources Humaines",
+		items: [
+			"Recrutement",
+			"Gestion des talents",
+			"Formation",
+			"Gestion de la paie",
+		],
+		link: "/gestion",
+	},
+];
 
 export const formations = [
 	{

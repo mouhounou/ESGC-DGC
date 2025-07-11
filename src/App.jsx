@@ -3,6 +3,8 @@ import Navbar from './component/Navbar'
 import Hero from './component/Hero'
 import Why from './component/Why'
 import Formations from './component/Formations'
+import ContactSection from './component/ContactSection '
+import Footer from './component/Footer'
 
 
 function App() {
@@ -12,7 +14,9 @@ function App() {
       <div className='px-[5%]'>
         <Hero />
         <Why />
-        <Formations/>
+        <Formations />
+        <ContactSection />
+        <Footer/>
       </div>
       {/* detaile de chaque formation */}
     </div>
