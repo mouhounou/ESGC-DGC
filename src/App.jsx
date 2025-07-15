@@ -5,11 +5,12 @@ import Why from './component/Why'
 import Formations from './component/Formations'
 import ContactSection from './component/ContactSection '
 import Footer from './component/Footer'
-
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   return (
     <div className=' bg-slate-50'>
+      <ToastContainer/>
       <Navbar />
       <div className='px-[5%]'>
         <Hero />
