@@ -12,7 +12,7 @@ function App() {
     <div className=' bg-slate-50'>
       <ToastContainer/>
       <Navbar />
-      <div className='px-[5%]'>
+      <div className='px-[2%] md:px-[5%]'>
         <Hero />
         <Why />
         <Formations />
