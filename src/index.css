@@ -6,7 +6,9 @@
 @theme{
    --font-lilita: 'Lilita One', cursive;
    --font-kaushan: 'Kaushan Script', cursive;
-   
+
    --color-first: #2e659e;
    --color-second: #e29317;
+   /* variante sombre du bleu ESGC pour les sections contrastées */
+   --color-deep: #173a5e;
 }

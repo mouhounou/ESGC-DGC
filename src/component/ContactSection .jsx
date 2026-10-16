@@ -5,7 +5,8 @@ import GoogleMapEmbed from './GoogleMapEmbed'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import {HashLoader} from 'react-spinners'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Eyebrow } from './Title'
 
 
 const fadeInUp = {
@@ -21,7 +22,7 @@ const fadeInUp = {
   }),
 }
 
-const ContactSection = () => {
+const ContactSection = ({ prefillEmail }) => {
 
   
     const [name, setName] = useState('')
@@ -30,6 +31,11 @@ const ContactSection = () => {
     const [subject, setSubject] = useState('')
     const [message, setMessage] = useState('')
     const [loading, setLoading] = useState(false)
+
+    // email saisi dans le bandeau d'appel à l'action
+    useEffect(() => {
+      if (prefillEmail) setEmail(prefillEmail)
+    }, [prefillEmail])
   
     const toSubmit = async(e) => {
       e.preventDefault()
@@ -46,6 +52,7 @@ const ContactSection = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         if (!emailRegex.test(email)) {
           toast.error('Adresse email invalide')
+          setLoading(false)
           return
         }
   
@@ -76,7 +83,7 @@ const ContactSection = () => {
       }
     } 
   return (
-    <section id='contact' className="py-12 text-gray-700 px-4 w-full flex flex-col items-center justify-center gap-5">
+    <section id='contact' className="max-w-7xl mx-auto py-16 text-gray-700 px-4 md:px-8 w-full flex flex-col items-center justify-center gap-5">
       <motion.div
         className="flex flex-col items-center justify-center gap-2 text-center"
         initial="hidden"
@@ -85,14 +92,15 @@ const ContactSection = () => {
         variants={fadeInUp}
         custom={1}
       >
-        <h2 className="text-3xl font-bold text-first">Contactez-nous</h2>
-        <p className="text-gray-600">Pour plus d'informations sur nos formations et inscriptions</p>
+        <Eyebrow>Contact</Eyebrow>
+        <h2 className="font-kaushan text-3xl md:text-5xl text-first">Contactez-nous</h2>
+        <p className="text-gray-500">Pour plus d'informations sur nos formations et inscriptions</p>
       </motion.div>
 
       <div className="w-full mx-auto flex flex-col md:flex-row gap-8 mt-6">
         {/* Bloc Gauche – Informations */}
         <motion.div
-            className="md:w-1/2  bg-white shadow-md rounded-lg overflow-hidden"
+            className="md:w-1/2  bg-white border border-gray-100 shadow-sm rounded-2xl overflow-hidden"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: false, duration: 0.6 }}
@@ -101,7 +109,7 @@ const ContactSection = () => {
         >
          <div className="p-6 space-y-5">
             <div className="flex items-start gap-3">
-              <FaMapMarkerAlt className="text-third text-3xl mt-1" />
+              <FaMapMarkerAlt className="text-second text-3xl mt-1" />
               <div>
                 <p className="font-medium">Adresse</p>
                 <p>
@@ -112,7 +120,7 @@ const ContactSection = () => {
             </div>
 
             <div className="flex items-start gap-3">
-              <FaPhoneAlt className="text-third text-3xl mt-1" />
+              <FaPhoneAlt className="text-second text-3xl mt-1" />
               <div>
                 <p className="font-medium">Sécrétariat</p>
                 <p>+242 05 796 08 50</p>
@@ -120,7 +128,7 @@ const ContactSection = () => {
             </div>
 
             <div className="flex items-start gap-3">
-               <FaPhoneAlt className="text-third text-3xl mt-1" />
+               <FaPhoneAlt className="text-second text-3xl mt-1" />
                <div>
                   <p className="font-medium">Recrutement</p>
                   <p>+242 05 092 74 23</p>
@@ -128,7 +136,7 @@ const ContactSection = () => {
             </div>
 
             <div className="flex items-start gap-3">
-              <FaEnvelope className="text-third text-3xl mt-1" />
+              <FaEnvelope className="text-second text-3xl mt-1" />
               <div>
                 <p className="font-medium">Email</p>
                 <p>contact@dgc-congo.org</p>
@@ -155,7 +163,7 @@ const ContactSection = () => {
           variants={fadeInUp}
           custom={3}
         >
-          <form onSubmit={toSubmit} className="bg-white shadow-md rounded-lg p-6 space-y-4">
+          <form onSubmit={toSubmit} className="bg-white border border-gray-100 shadow-sm rounded-2xl p-6 space-y-4">
             <div>
               <label htmlFor="name" className="block font-medium text-gray-700 mb-1">
                 Nom complet
@@ -166,7 +174,7 @@ const ContactSection = () => {
                 required
                 type="text"
                 id="name"
-                className="w-full border border-gray-300 rounded p-2" />
+                className="w-full border border-gray-200 rounded-xl p-2.5 outline-none focus:border-first" />
             </div>
 
             <div>
@@ -177,7 +185,7 @@ const ContactSection = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                type="email" id="email" className="w-full border border-gray-300 rounded p-2" />
+                type="email" id="email" className="w-full border border-gray-200 rounded-xl p-2.5 outline-none focus:border-first" />
             </div>
 
             <div>
@@ -188,7 +196,7 @@ const ContactSection = () => {
                 value={phone} 
                 onChange={(e) => setPhone(e.target.value)}
                 required
-                type="tel" id="phone" className="w-full border border-gray-300 rounded p-2" />
+                type="tel" id="phone" className="w-full border border-gray-200 rounded-xl p-2.5 outline-none focus:border-first" />
             </div>
 
             <div>
@@ -199,7 +207,7 @@ const ContactSection = () => {
                 value={subject}
                 onChange={(e) => setSubject(e.target.value)}
                 required
-                id="subject" className="cursor-pointer w-full border border-gray-300 rounded p-2">
+                id="subject" className="cursor-pointer w-full border border-gray-200 rounded-xl p-2.5 outline-none focus:border-first">
                 <option value="">Choisissez un sujet</option>
                 <option value="formation">Formation</option>
                 <option value="inscription">Inscription</option>
@@ -215,18 +223,18 @@ const ContactSection = () => {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 required
-                id="message" rows="4" className="w-full border border-gray-300 rounded p-2" />
+                id="message" rows="4" className="w-full border border-gray-200 rounded-xl p-2.5 outline-none focus:border-first" />
             </div>
             {
               loading ? 
                 <div className='w-full py-3 flex items-center justify-center'>
-                  <HashLoader />
+                  <HashLoader color='#2e659e' />
                 </div>
                 
                 :
                 <button
                   type="submit"
-                  className="w-full bg-first hover:bg-first/75 cursor-pointer text-white font-semibold py-2 rounded"
+                  className="w-full bg-first hover:bg-second transition cursor-pointer text-white font-semibold py-2.5 rounded-full"
                 >
                   Envoyer
               </button>

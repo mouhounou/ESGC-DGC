@@ -1,56 +1,77 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
-import Title from './Title'
+import { useState } from 'react'
 import { assets, raisons } from '../assets'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { motion } from 'framer-motion'
-
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Eyebrow } from './Title'
 
 function Why() {
+   const [active, setActive] = useState(0)
+
    return (
-      <div id='pourquoi' className='my-[3rem] px-[2%] lg:px-[2.5%]'>
-         <div className=' flex flex-col md:flex-row gap-[2.7%] items-center mt-[2rem]'>
+      <section id='pourquoi' className='max-w-7xl mx-auto px-4 md:px-8 py-16'>
+         <div className='grid lg:grid-cols-3 gap-10 items-center'>
             <motion.div
                initial={{ opacity: 0, y: 30 }}
-               animate={{ opacity: 1, y: 0 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               viewport={{ once: true }}
                transition={{ duration: 0.7, ease: 'easeOut' }}
-               className='flex-1 relative'
+               className='relative'
             >
-               <div className="absolute w-[7rem] h-[5rem] bg-first top-24  left-0 blur-3xl "></div>
-               <div className="absolute w-[7rem] h-[5rem] bg-second opacity-25 bottom-26  right-16 blur-3xl "></div>
-               <img className='w-full' src={assets.why} alt="" />
-            </motion.div> 
-
-            <div className='flex-1 flex flex-col gap-7 '>
-               <div>
-                  <Title titre="Pourquoi choisir ESGC ?" styles="text-start text-second text-4xl font-semibold " />
-                  <p className='text-gray-500  mt-4'>
-                     Choisir une école, c’est bien plus qu’une simple étape dans un parcours académique — c’est un engagement envers son avenir. À l’ESGC, nous accompagnons les étudiants ambitieux à se préparer aux réalités du monde professionnel grâce à une pédagogie moderne, ancrée dans la pratique. Située à Pointe-Noire et forte de plus de 20 ans d’expérience, notre école est un espace d’apprentissage dynamique, axé sur l’innovation, l’excellence et l’insertion professionnelle.
-                  </p>
+               <div className='rounded-3xl bg-gradient-to-b from-first/15 to-second/20 overflow-hidden h-[360px] flex items-end justify-center'>
+                  <img className='h-[340px] object-contain' src={assets.why} alt="Étudiante en réflexion" />
                </div>
-               {
-                  raisons.map((item, id) => (
-                     <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ delay: id * 0.2 }}
-                        className='flex items-start gap-5'
-                        key = {id}
-                     >
-                        <div className='w-14 h-14 flex   items-center justify-center bg-second/25 rounded-full'>
-                           <FontAwesomeIcon className='text-second text-xl' icon={item.icone}/>
-                        </div>
-                           
-                           <div>
-                              <h1 className='text-xl text-gray-600 font-semibold'>{item.titre}</h1>
-                              <p className='text-gray-500 text-sm'>{item.description}</p>
-                           </div>
-                     </motion.div>
-                  ))
-               }
+               <div className='absolute left-4 bottom-6 bg-deep text-white rounded-2xl px-5 py-4 shadow-xl'>
+                  <p className='text-xs text-white/70'>Une école reconnue</p>
+                  <p className='text-3xl font-bold text-second'>20+ ans</p>
+                  <p className='text-xs text-white/70'>d'expérience</p>
+               </div>
+            </motion.div>
+
+            <div>
+               <Eyebrow>Nos atouts</Eyebrow>
+               <h2 className='mt-3 font-kaushan text-3xl md:text-5xl text-first leading-tight'>Pourquoi choisir ESGC ?</h2>
+               <p className='text-gray-500 mt-5'>
+                  Située à Pointe-Noire et forte de plus de 20 ans d'expérience, notre école est un espace d'apprentissage
+                  dynamique, axé sur l'innovation, l'excellence et l'insertion professionnelle.
+               </p>
+            </div>
+
+            {/* Accordéon des raisons */}
+            <div className='flex flex-col gap-3'>
+               {raisons.map((item, id) => {
+                  const isOpen = active === id
+                  return (
+                     <div key={id} className={`rounded-xl border transition ${isOpen ? 'bg-deep border-deep text-white' : 'bg-white border-gray-200 text-gray-700'}`}>
+                        <button
+                           onClick={() => setActive(isOpen ? -1 : id)}
+                           className='w-full flex items-center justify-between gap-3 px-4 py-3 text-left font-semibold text-sm cursor-pointer'
+                        >
+                           <span className='flex items-center gap-3'>
+                              <FontAwesomeIcon className='text-second' icon={item.icone} />
+                              {item.titre}
+                           </span>
+                           <FontAwesomeIcon icon={faChevronDown} className={`text-xs transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                        <AnimatePresence initial={false}>
+                           {isOpen && (
+                              <motion.p
+                                 initial={{ height: 0, opacity: 0 }}
+                                 animate={{ height: 'auto', opacity: 1 }}
+                                 exit={{ height: 0, opacity: 0 }}
+                                 className='px-4 pb-4 text-sm text-white/80 overflow-hidden'
+                              >
+                                 {item.description}
+                              </motion.p>
+                           )}
+                        </AnimatePresence>
+                     </div>
+                  )
+               })}
             </div>
          </div>
-      </div>
+      </section>
    )
 }
 

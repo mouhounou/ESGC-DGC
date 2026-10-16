@@ -4,22 +4,53 @@ import {
 	faBriefcase,
 	faCalendarCheck,
 	faUserGraduate,
-	faHandsHelping
+	faHandsHelping,
+	faLayerGroup,
+	faBuilding,
+	faMapLocationDot
 } from "@fortawesome/free-solid-svg-icons";
 
 import logo from "./logo.png";
 import accueil from "./com.png";
 import why from './wh.png'
-export const assets = {
-	logo,
-   accueil,
-   why
-};
 import compta from './compta.jpeg'
 import banque from './Banque.jpg'
 import logistique from './logistique.jpg'
 import negociation from './Negociation.jpg'
 import ressource from './ressource.jpg'
+
+export const assets = {
+	logo,
+   accueil,
+   why
+};
+
+export const heroImage = negociation;
+export const aboutImage = ressource;
+
+// Chiffres et repères clés (section « À propos »)
+export const chiffres = [
+	{
+		titre: "20+ ans",
+		description: "D'expérience dans la formation au commerce et à la gestion.",
+		icone: faCalendarCheck,
+	},
+	{
+		titre: "5 filières",
+		description: "Des parcours spécialisés dans des secteurs qui recrutent.",
+		icone: faLayerGroup,
+	},
+	{
+		titre: "Stages",
+		description: "Des cas réels et des stages en entreprise tout au long du cursus.",
+		icone: faBuilding,
+	},
+	{
+		titre: "Pointe-Noire",
+		description: "Un campus facile d'accès, face au Lycée Victor Augagneur.",
+		icone: faMapLocationDot,
+	},
+];
 
 
 
