@@ -18,27 +18,31 @@ const fadeUp = {
 const Hero = () => {
    return (
       <section id='home' className="max-w-7xl mx-auto px-4 md:px-8 pt-4">
-         <div className="relative overflow-hidden rounded-3xl min-h-[460px] lg:min-h-[560px] flex items-center">
+         <div className="relative overflow-hidden rounded-3xl min-h-[480px] lg:min-h-[580px] flex items-center">
             <img src={heroImage} alt="Étudiants de l'ESGC" className="absolute inset-0 w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-r from-deep via-deep/85 to-first/30" />
+            <div className="absolute inset-0 bg-gradient-to-r from-deep from-35% via-deep/80 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-deep/60 to-transparent lg:hidden" />
 
-            <div className="relative z-10 px-6 sm:px-10 lg:px-14 py-14 max-w-3xl text-white">
-               <motion.p
-                  className="inline-block text-xs font-semibold uppercase tracking-widest bg-white/10 border border-white/20 rounded-full px-3 py-1"
+            <div className="relative z-10 w-full lg:w-[58%] px-6 sm:px-10 lg:px-14 py-12 lg:py-16 text-white flex flex-col">
+               <motion.div
+                  className="flex items-center gap-3 text-xs sm:text-sm font-semibold uppercase tracking-[0.2em] text-second"
                   initial="hidden" animate="visible" variants={fadeUp} custom={0}
                >
-                  Pointe-Noire · Plus de 20 ans d'expérience
-               </motion.p>
+                  <span className="w-8 h-[2px] bg-second" />
+                  Bienvenue à l'ESGC
+               </motion.div>
 
                <motion.h1
-                  className="mt-5 font-kaushan text-4xl sm:text-5xl lg:text-7xl leading-tight"
+                  className="mt-5 font-kaushan text-4xl sm:text-5xl xl:text-6xl leading-[1.15]"
                   initial="hidden" animate="visible" variants={fadeUp} custom={1}
                >
-                  École Supérieure de Commerce et de <span className="text-second">Gestion</span>
+                  École Supérieure <br className="hidden sm:block" />
+                  de Commerce <br className="hidden sm:block" />
+                  et de <span className="text-second">Gestion</span>
                </motion.h1>
 
                <motion.p
-                  className="text-sm sm:text-base mt-6 text-white/85 max-w-xl"
+                  className="mt-6 text-base sm:text-lg leading-relaxed text-white/85 max-w-md"
                   initial="hidden" animate="visible" variants={fadeUp} custom={2}
                >
                   Nous formons des étudiants ambitieux, prêts à relever les défis du monde
@@ -49,13 +53,30 @@ const Hero = () => {
                   className="flex flex-wrap items-center gap-3 font-semibold mt-8"
                   initial="hidden" animate="visible" variants={fadeUp} custom={3}
                >
-                  <a href="#filiere" className="px-6 py-2.5 bg-second rounded-full hover:bg-white hover:text-first transition">
+                  <a href="#filiere" className="px-6 py-3 bg-second rounded-full shadow-lg shadow-second/30 hover:bg-white hover:text-first transition">
                      Découvrir nos formations
                   </a>
-                  <a href="#contact" className="px-6 py-2.5 border border-white/70 rounded-full hover:bg-white hover:text-first transition">
+                  <a href="#contact" className="px-6 py-3 border border-white/60 rounded-full hover:bg-white hover:text-first transition">
                      Contactez-nous
                   </a>
                </motion.div>
+
+               <motion.dl
+                  className="mt-10 pt-6 border-t border-white/15 grid grid-cols-3 gap-4 max-w-md"
+                  initial="hidden" animate="visible" variants={fadeUp} custom={4}
+               >
+                  {[
+                     ['20+', "ans d'expérience"],
+                     [formations.length, 'filières'],
+                     ['Stages', 'en entreprise'],
+                  ].map(([valeur, libelle]) => (
+                     <div key={libelle}>
+                        <dt className="sr-only">{libelle}</dt>
+                        <dd className="text-xl sm:text-2xl font-bold text-white">{valeur}</dd>
+                        <dd className="text-xs text-white/65">{libelle}</dd>
+                     </div>
+                  ))}
+               </motion.dl>
             </div>
          </div>
 
