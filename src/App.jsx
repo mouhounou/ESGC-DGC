@@ -8,6 +8,7 @@ import Why from './component/Why'
 import Formations from './component/Formations'
 import Debouches from './component/Debouches'
 import JoinCta from './component/JoinCta'
+import Faq from './component/Faq'
 import ContactSection from './component/ContactSection '
 import Footer from './component/Footer'
 import { ToastContainer } from 'react-toastify'
@@ -19,6 +20,7 @@ function App() {
     <div className='bg-white overflow-x-hidden'>
       <ToastContainer/>
       <Navbar />
+      <main>
       <Hero />
       <About />
       <Parcours />
@@ -26,8 +28,10 @@ function App() {
       <Why />
       <Formations />
       <Debouches />
+      <Faq />
       <JoinCta />
       <ContactSection prefillEmail={prefillEmail} />
+      </main>
       <Footer/>
     </div>
   )

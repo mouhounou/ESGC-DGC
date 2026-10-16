@@ -21,6 +21,7 @@ function Navbar() {
     { href: '#pourquoi', label: 'Pourquoi ESGC' },
     { href: '#filiere', label: 'Formations' },
     { href: '#debouches', label: 'Débouchés' },
+    { href: '#faq', label: 'FAQ' },
     { href: '#contact', label: 'Contact' },
   ]
 
