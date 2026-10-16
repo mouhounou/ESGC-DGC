@@ -1,5 +1,12 @@
 import React from 'react'
 
+// Petit libellé au-dessus des titres de section
+export function Eyebrow({ children, styles }) {
+   return (
+      <p className={`text-xs font-semibold uppercase tracking-widest text-second ${styles ? styles : ""}`}>{children}</p>
+   )
+}
+
 function Title({titre, styles}) {
    return (
       <>

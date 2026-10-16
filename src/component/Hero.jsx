@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { motion } from 'framer-motion'
-import { assets } from '../assets'
-
+import { formations, heroImage } from '../assets'
 
 const fadeUp = {
    hidden: { opacity: 0, y: 40 },
@@ -17,73 +16,66 @@ const fadeUp = {
 }
 
 const Hero = () => {
- return (
-   <div id='home' className="relative w-full lg:h-[80vh] bg-first text-white rounded-md flex flex-col lg:flex-row justify-between items-end px-[2.5%] pt-[3rem]">
-      <div className="w-full lg:flex-2 mb-[4rem] text-center sm:text-start pt-[3.7rem] md:pt-0 flex flex-col items-center md:items-start justify-center">
-         <motion.h1
-            className="font-kaushan text-3xl sm:text-3xl  lg:text-7xl font-bold"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeUp}
-            custom={1}
-         >
-            École Supérieure de <br className='hidden lg:block' /> Commerce et de <br className='hidden lg:block' /> Gestion
-         </motion.h1>
+   return (
+      <section id='home' className="max-w-7xl mx-auto px-4 md:px-8 pt-4">
+         <div className="relative overflow-hidden rounded-3xl min-h-[460px] lg:min-h-[560px] flex items-center">
+            <img src={heroImage} alt="Étudiants de l'ESGC" className="absolute inset-0 w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-r from-deep via-deep/85 to-first/30" />
 
-         <motion.p
-            className="text-sm sm:text-base mt-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: false, duration: 0.6 }}
-            variants={fadeUp}
-            custom={2}
-         >
-            Nous formons des étudiants ambitieux, prêts à relever les défis du monde <br className='hidden lg:block' />
-            professionnel à travers une pédagogie pratique et innovante
-         </motion.p>
+            <div className="relative z-10 px-6 sm:px-10 lg:px-14 py-14 max-w-3xl text-white">
+               <motion.p
+                  className="inline-block text-xs font-semibold uppercase tracking-widest bg-white/10 border border-white/20 rounded-full px-3 py-1"
+                  initial="hidden" animate="visible" variants={fadeUp} custom={0}
+               >
+                  Pointe-Noire · Plus de 20 ans d'expérience
+               </motion.p>
 
-         <motion.div
-            className="flex flex-row items-start gap-3 font-semibold mt-6"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: false, duration: 0.6 }}
-            variants={fadeUp}
-            custom={4}
-         >
-            <a
-               href="#filiere"
-               className="px-2 md:px-4 py-2 bg-second rounded-md hover:opacity-90 transition"
-            >
-               Découvrir nos formations
-            </a>
-            <a
-               href="#contact"
-               className="px-4 py-2 border rounded-md hover:bg-white hover:text-first transition"
-            >
-               Contactez-nous
-            </a>
-         </motion.div>
-      </div>
+               <motion.h1
+                  className="mt-5 font-kaushan text-4xl sm:text-5xl lg:text-7xl leading-tight"
+                  initial="hidden" animate="visible" variants={fadeUp} custom={1}
+               >
+                  École Supérieure de Commerce et de <span className="text-second">Gestion</span>
+               </motion.h1>
 
-      <motion.div
-         initial={{ opacity: 0, y: 30 }}
-         whileInView={{ opacity: 1, y: 0 }}
-         transition={{ duration: 0.6, ease: 'easeOut' }}
-         viewport={{ once: false }}
-         className="w-full lg:flex-1 relative bottom-0 flex justify-center items-center lg:mt-0 overflow-visible"
-         >
-         <div className="absolute bottom-34 lg: bottom-0 lg:-top-[25rem] w-[16rem] h-[16rem] md:w-[22rem] md:h-[20rem] bg-second z-10 blur-3xl bottom-0 right-16 lg:right-0"></div>
+               <motion.p
+                  className="text-sm sm:text-base mt-6 text-white/85 max-w-xl"
+                  initial="hidden" animate="visible" variants={fadeUp} custom={2}
+               >
+                  Nous formons des étudiants ambitieux, prêts à relever les défis du monde
+                  professionnel à travers une pédagogie pratique et innovante.
+               </motion.p>
 
-         <img
-            className="lg:absolute bottom-0 right-9 w-[80%] max-w-lg lg:w-[92%] lg:max-w-none z-30 pointer-events-none"
-            src={assets.accueil}
-            alt="Illustration informatique"
-         />
-      </motion.div>
+               <motion.div
+                  className="flex flex-wrap items-center gap-3 font-semibold mt-8"
+                  initial="hidden" animate="visible" variants={fadeUp} custom={3}
+               >
+                  <a href="#filiere" className="px-6 py-2.5 bg-second rounded-full hover:bg-white hover:text-first transition">
+                     Découvrir nos formations
+                  </a>
+                  <a href="#contact" className="px-6 py-2.5 border border-white/70 rounded-full hover:bg-white hover:text-first transition">
+                     Contactez-nous
+                  </a>
+               </motion.div>
+            </div>
+         </div>
 
-   </div>
-)
+         {/* Bandeau des filières (façon logos partenaires) */}
+         <div className="mt-6 flex flex-col md:flex-row md:items-center gap-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gray-500 shrink-0">Nos filières</p>
+            <div className="flex flex-wrap gap-2">
+               {formations.map((item) => (
+                  <a
+                     key={item.id}
+                     href="#filiere"
+                     className="px-4 py-2 rounded-full border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:border-first hover:text-first transition"
+                  >
+                     {item.titre}
+                  </a>
+               ))}
+            </div>
+         </div>
+      </section>
+   )
 }
 
 export default Hero

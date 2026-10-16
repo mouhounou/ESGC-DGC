@@ -4,13 +4,11 @@ import { Menu, X } from 'lucide-react'
 
 function Navbar() {
   const [change, setChange] = useState(false)
-  // eslint-disable-next-line no-unused-vars
-  const [open, setOpen] = useState(false)
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      setChange(window.scrollY > 260)
+      setChange(window.scrollY > 40)
     }
 
     window.addEventListener('scroll', handleScroll)
@@ -19,52 +17,58 @@ function Navbar() {
 
   const links = [
     { href: '#home', label: 'Accueil' },
+    { href: '#apropos', label: 'À propos' },
     { href: '#pourquoi', label: 'Pourquoi ESGC' },
     { href: '#filiere', label: 'Formations' },
-    // { href: '#valeur', label: 'Valeurs' },
-    // { href: '#condidature', label: 'candidature' },
-    { href: '#contact', label: 'contact' },
+    { href: '#debouches', label: 'Débouchés' },
+    { href: '#contact', label: 'Contact' },
   ]
 
   return (
     <header
-      className={`${
-        change ? 'fixed shadow-lg' : 'scroll'
-      } px-[5%] py-2 text-white bg-slate-50 font-semibold -top-1 w-full z-40 transition-colors duration-300`}
+      className={`${change ? 'shadow-md' : ''} sticky top-0 w-full z-40 bg-white/95 backdrop-blur transition-shadow duration-300`}
     >
-      <div className="flex items-center justify-between text-gray-700">
-        <a href="#home">
-          <img className="w-11 rounded-md" src={assets.logo} alt="logo" />
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex items-center justify-between text-gray-700">
+        <a href="#home" className="flex items-center gap-2">
+          <img className="w-10 rounded-md" src={assets.logo} alt="logo" />
+          <span className="font-kaushan text-2xl text-first">ESGC</span>
         </a>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-4">
+        <nav className="hidden lg:flex items-center gap-1 text-sm font-medium">
           {links.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="px-1.5 py-1 rounded-md border border-transparent hover:border-b-white hover:bg-second  transition-all duration-150 hover:text-white"
+              className="px-3 py-1.5 rounded-full hover:bg-first/10 hover:text-first transition-colors duration-150"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
+        <a
+          href="#contact"
+          className="hidden lg:inline-flex items-center px-5 py-2 rounded-full bg-first text-white text-sm font-semibold hover:bg-second transition-colors duration-150"
+        >
+          S'inscrire
+        </a>
+
         {/* Mobile Menu Icon */}
-        <button onClick={() => setDrawerOpen(true)} className="md:hidden bg-second p-2 cursor-pointer rounded-md hover:bg-second/75 transition-colors duration-150">
+        <button onClick={() => setDrawerOpen(true)} className="lg:hidden bg-second p-2 cursor-pointer rounded-full hover:bg-second/75 transition-colors duration-150" aria-label="Ouvrir le menu">
           <Menu className="text-white" />
         </button>
       </div>
 
       {/* Drawer (Mobile Menu) */}
       <div
-        className={`fixed top-0 left-0 w-full h-full bg-first text-white z-50 transition-transform duration-300 ${
+        className={`fixed top-0 left-0 w-full h-screen bg-deep text-white z-50 transition-transform duration-300 ${
           drawerOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex justify-between items-center px-6 py-4 border-b border-b-gray-400">
+        <div className="flex justify-between items-center px-6 py-4 border-b border-b-white/20">
           <img className="w-10 rounded-md" src={assets.logo} alt="logo" />
-          <button className='cursor-pointer' onClick={() => setDrawerOpen(false)}>
+          <button className='cursor-pointer' onClick={() => setDrawerOpen(false)} aria-label="Fermer le menu">
             <X className="text-2xl" />
           </button>
         </div>
@@ -75,12 +79,18 @@ function Navbar() {
               key={link.label}
               href={link.href}
               onClick={() => setDrawerOpen(false)}
-              className="text-lg w-full text-center py-2 border-b hover:border-b-white hover:bg-first/35 hover:text-second border-transparent font-medium  transition-colors"
+              className="text-lg w-full text-center py-2 rounded-full hover:bg-white/10 hover:text-second font-medium transition-colors"
             >
               {link.label}
             </a>
           ))}
-          
+          <a
+            href="#contact"
+            onClick={() => setDrawerOpen(false)}
+            className="mt-4 px-6 py-2.5 rounded-full bg-second font-semibold"
+          >
+            S'inscrire
+          </a>
         </nav>
       </div>
     </header>

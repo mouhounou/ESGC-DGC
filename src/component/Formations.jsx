@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
-import Title from './Title'
+import { Eyebrow } from './Title'
 import { formations } from '../assets'
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleCheck } from '@fortawesome/free-solid-svg-icons'
+import { faCircleCheck, faLayerGroup, faBriefcase } from '@fortawesome/free-solid-svg-icons'
 import { motion, AnimatePresence } from 'framer-motion'
 
 function Formations() {
@@ -17,43 +17,50 @@ function Formations() {
    }, [selected])
 
    return (
-      <div id="filiere" className="w-full px-[1%] mb-[3rem] py-[3rem] bg-gradient-to-r from-first/75 to-first rounded-md flex flex-col items-center gap-4">
-         <Title titre="Nos formations" styles="text-white" />
-         <p className="text-white text-center">Découvrez nos 5 parcours de formation spécialisés</p>
+      <section id="filiere" className="bg-slate-100/70 py-16">
+         <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col items-center">
+         <Eyebrow>Nos formations</Eyebrow>
+         <h2 className="mt-3 font-kaushan text-3xl md:text-5xl text-first text-center">Découvrez nos parcours</h2>
+         <p className="text-gray-500 text-center mt-4 max-w-xl">Découvrez nos 5 parcours de formation spécialisés, pensés pour les secteurs qui recrutent.</p>
 
-         <div className="w-full mt-[3rem] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+         <div className="w-full mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {formations.map((item, index) => (
                <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex flex-col bg-white shadow-md rounded-md overflow-hidden h-full"
+                  className="group flex flex-col bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition overflow-hidden h-full p-3"
                >
-                  <div className="relative">
+                  <div className="overflow-hidden rounded-xl">
                      <img
-                        className="w-full h-[240px] object-cover"
+                        className="w-full h-[220px] object-cover group-hover:scale-105 transition duration-300"
                         src={item.image}
                         alt={item.titre}
                      />
-                     <div className="absolute top-0 left-0 w-full h-full bg-first/25" />
                   </div>
 
-                  <div className="flex flex-col flex-1 px-4 py-3">
-                     <h1 className="text-2xl font-bold text-first">{item.titre}</h1>
-                     <p className="text-gray-700 my-4 flex-1">{item.description}</p>
+                  <div className="flex flex-col flex-1 px-2 pt-4 pb-2">
+                     <div className="flex items-center gap-4 text-xs text-gray-500">
+                        <span className="flex items-center gap-1.5"><FontAwesomeIcon className="text-second" icon={faLayerGroup} />{item.modules.length} modules</span>
+                        <span className="flex items-center gap-1.5"><FontAwesomeIcon className="text-second" icon={faBriefcase} />{item.debouches.length} débouchés</span>
+                     </div>
+                     <h3 className="text-xl font-bold text-first mt-3">{item.titre}</h3>
+                     <p className="text-gray-500 text-sm my-3 flex-1">{item.description}</p>
                      <button
                         onClick={() => {
                            setSelected(item.id)
                            setOpen(true)
                         }}
-                        className="w-full text-center py-2 transition-all duration-150 cursor-pointer hover:scale-75 bg-second rounded-md font-semibold text-white mt-auto"
+                        className="self-start text-sm font-semibold text-first hover:text-second transition cursor-pointer"
                      >
-                        En savoir plus
+                        En savoir plus →
                      </button>
                   </div>
                </motion.div>
             ))}
+         </div>
          </div>
 
          {/* Modale animée */}
@@ -136,7 +143,7 @@ function Formations() {
                </motion.div>
             )}
          </AnimatePresence>
-      </div>
+      </section>
    )
 }
 
