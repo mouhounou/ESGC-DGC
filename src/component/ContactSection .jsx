@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { toast } from 'react-toastify'
 import { FaWhatsapp } from 'react-icons/fa'
@@ -9,6 +9,7 @@ import { ariaChamp, champClasse, signalerErreurs, verifEmail, verifTelephone } f
 import { apparition } from '../lib/apparition'
 import { Eyebrow } from './Title'
 import SocialLinks from './SocialLinks'
+import Turnstile from './Turnstile'
 
 // Même organisation que la page Contact du CCPM : formulaire validé à gauche ;
 // carte, WhatsApp, réseaux et coordonnées à droite.
@@ -80,6 +81,8 @@ function ChampErreur({ id, message }) {
 const ContactSection = () => {
    const [form, setForm] = useState(vide)
    const [envoi, setEnvoi] = useState(false)
+   const [captcha, setCaptcha] = useState('') // jeton Cloudflare Turnstile
+   const turnstile = useRef(null)
    const [envoye, setEnvoye] = useState(false)
    const [erreurs, setErreurs] = useState({})
    const [tente, setTente] = useState(false) // une soumission a déjà été tentée
@@ -100,6 +103,10 @@ const ContactSection = () => {
          signalerErreurs(verif, ORDRE)
          return
       }
+      if (!captcha) {
+         toast.error("Merci de confirmer que vous n'êtes pas un robot.")
+         return
+      }
       setEnvoi(true)
       try {
          const res = await fetch(API, {
@@ -112,6 +119,7 @@ const ContactSection = () => {
                subject: form.objet,
                message: form.message,
                site: 'esgc', // e-mails envoyés au nom de l'ESGC
+               turnstileToken: captcha, // vérifié par l'API auprès de Cloudflare
             }),
          })
          const data = await res.json().catch(() => ({}))
@@ -128,6 +136,7 @@ const ContactSection = () => {
          toast.error('Une erreur est survenue. Veuillez réessayer dans un instant')
       } finally {
          setEnvoi(false)
+         turnstile.current?.reset() // un jeton ne sert qu'une fois
       }
    }
 
@@ -214,6 +223,8 @@ const ContactSection = () => {
                            />
                            <ChampErreur id="contact-message" message={erreurs.message} />
                         </div>
+
+                        <Turnstile ref={turnstile} onToken={setCaptcha} action="contact" />
 
                         <button
                            type="submit"
