@@ -9,7 +9,7 @@ export const ecole = {
 	sigle: 'ESGC',
 	groupe: 'Groupe DGC-Formations SARL',
 	description:
-		"L'ESGC forme depuis plus de 20 ans aux métiers du commerce et de la gestion à Pointe-Noire (Congo) : comptabilité, ressources humaines, banque et assurance, relation client digitale, logistique et commerce international.",
+		"L'ESGC forme depuis 21 ans aux métiers du commerce et de la gestion à Pointe-Noire (Congo) : comptabilité, ressources humaines, banque et assurance, relation client digitale, logistique et commerce international.",
 	adresse: {
 		rue: 'Zone industrielle, en face du Lycée Victor Augagneur',
 		ville: 'Pointe-Noire',
@@ -23,11 +23,14 @@ export const ecole = {
 		{ libelle: 'Recrutement', numero: '+242 05 092 74 23', tel: '+242050927423' },
 	],
 	email: 'contact@dgc-congo.org',
+	whatsapp: { numero: '+242 05 092 74 23', lien: 'https://wa.me/242050927423' },
+	carte: 'https://maps.google.com/maps?q=-4.7762,11.853&z=16&output=embed',
+	itineraire: 'https://www.google.com/maps/dir/?api=1&destination=-4.7762,11.853',
 	horaires: [
 		{ jours: 'Lundi - Vendredi', ouverture: '08:00', fermeture: '17:00', schema: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] },
 		{ jours: 'Samedi', ouverture: '09:00', fermeture: '13:00', schema: ['Saturday'] },
 	],
-	reseaux: ['https://www.facebook.com/share/1C9VGo2zxn/'],
+	reseaux: ['https://www.facebook.com/DGCFormations', 'https://www.linkedin.com/school/dgccongo/', 'https://www.tiktok.com/@dgc.groupe'],
 }
 
 export const formationsTexte = [
@@ -156,8 +159,8 @@ export const formationsTexte = [
 	},
 ];
 
-// Questions fréquentes : affichées sur la page (section FAQ) et reprises
-// dans le balisage FAQPage pour les moteurs de réponse
+// Questions fréquentes : la section FAQ a été retirée de la page (et du balisage
+// FAQPage) ; textes conservés ici pour pouvoir la remettre facilement
 export const faq = [
 	{
 		question: "Quelles formations propose l'ESGC ?",
@@ -170,7 +173,7 @@ export const faq = [
 	{
 		question: "Pourquoi choisir l'ESGC ?",
 		reponse:
-			"L'ESGC a plus de 20 ans d'expérience à Pointe-Noire. Les formations sont pratiques (cas réels et stages), dans des secteurs qui recrutent, avec des enseignants professionnels et un service qui accompagne les étudiants vers l'emploi après leur diplôme.",
+			"L'ESGC a 21 ans d'expérience à Pointe-Noire. Les formations sont pratiques (cas réels et stages), dans des secteurs qui recrutent, avec des enseignants professionnels et un service qui accompagne les étudiants vers l'emploi après leur diplôme.",
 	},
 	{
 		question: "Quels métiers peut-on exercer après l'ESGC ?",

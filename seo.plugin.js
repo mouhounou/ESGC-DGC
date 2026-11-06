@@ -1,10 +1,10 @@
 // Plugin Vite : SEO, AEO (moteurs de réponse) et GEO (moteurs génératifs + géolocalisation).
 // Tout est généré au build à partir de src/data/content.js pour rester synchronisé avec le site.
-import { SITE_URL, ecole, formationsTexte, faq } from './src/data/content.js'
+import { SITE_URL, ecole, formationsTexte } from './src/data/content.js'
 
 const TITLE = "ESGC Pointe-Noire | École Supérieure de Commerce et de Gestion"
 const DESCRIPTION =
-   "ESGC, école de commerce et de gestion à Pointe-Noire (Congo) depuis plus de 20 ans : comptabilité, RH, banque et assurance, relation client digitale, logistique et commerce international."
+   "ESGC, école de commerce et de gestion à Pointe-Noire (Congo) depuis 21 ans : comptabilité, RH, banque et assurance, relation client digitale, logistique et commerce international."
 const OG_IMAGE = `${SITE_URL}/og-image.jpg`
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
@@ -74,15 +74,6 @@ function jsonLd() {
             provider: { '@id': org },
             hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'Onsite', location: { '@type': 'Place', name: ecole.nom, address: adresse } },
          })),
-         {
-            '@type': 'FAQPage',
-            '@id': `${SITE_URL}/#faq`,
-            mainEntity: faq.map((q) => ({
-               '@type': 'Question',
-               name: q.question,
-               acceptedAnswer: { '@type': 'Answer', text: q.reponse },
-            })),
-         },
       ],
    }
 }
@@ -133,8 +124,6 @@ function fallbackHtml() {
         <p>${esc(ecole.description)}</p>
         <h2>Nos formations</h2>
         ${formationsTexte.map((f) => `<h3>${esc(f.titre)}</h3><p>${esc(f.description)}</p><p>Modules :</p><ul>${li(f.modules)}</ul><p>Débouchés :</p><ul>${li(f.debouches)}</ul>`).join('')}
-        <h2>Questions fréquentes</h2>
-        ${faq.map((q) => `<h3>${esc(q.question)}</h3><p>${esc(q.reponse)}</p>`).join('')}
         <h2>Contact</h2>
         <address>${esc(ecole.adresse.rue)}, ${esc(ecole.adresse.ville)}, ${esc(ecole.adresse.paysNom)}<br>
           ${ecole.telephones.map((t) => `${esc(t.libelle)} : <a href="tel:${t.tel}">${esc(t.numero)}</a>`).join('<br>')}<br>
@@ -158,15 +147,10 @@ function llmsTxt() {
 
 ${formationsTexte.map((f) => `### ${f.titre}\n\n${f.description}\n\n- Modules : ${f.modules.join(' ; ')}\n- Débouchés : ${f.debouches.join(', ')}\n- Secteurs employeurs : ${f.secteurs_employeurs.join(', ')}`).join('\n\n')}
 
-## Questions fréquentes
-
-${faq.map((q) => `### ${q.question}\n\n${q.reponse}`).join('\n\n')}
-
 ## Pages
 
 - [Formations](${SITE_URL}/#filiere)
 - [Débouchés](${SITE_URL}/#debouches)
-- [FAQ](${SITE_URL}/#faq)
 - [Contact](${SITE_URL}/#contact)
 `
 }

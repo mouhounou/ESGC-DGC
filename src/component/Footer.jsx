@@ -1,67 +1,165 @@
-import React from 'react';
-import { assets, footerSections } from '../assets';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebook, faInstagram, faLinkedinIn, faYoutube } from "@fortawesome/free-brands-svg-icons";
+/* eslint-disable no-unused-vars */
+import { motion } from 'framer-motion'
+import { ArrowUp, Clock, Mail, MapPin, Phone } from 'lucide-react'
+import { assets, formations } from '../assets'
+import { ecole } from '../data/content'
+import { apparition } from '../lib/apparition'
+import SocialLinks from './SocialLinks'
 
-const socials = [
-  { href: "https://www.facebook.com/share/1C9VGo2zxn/", icon: faFacebook, label: "Facebook" },
-  { href: "#", icon: faInstagram, label: "Instagram" },
-  { href: "https://www.linkedin.com/in/lincoln-immo-services-072733319?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app", icon: faLinkedinIn, label: "LinkedIn" },
-  { href: "#", icon: faYoutube, label: "YouTube" },
-];
+const navigation = [
+   { href: '#home', label: 'Accueil' },
+   { href: '#pourquoi', label: 'Pourquoi ESGC' },
+   { href: '#filiere', label: 'Nos formations' },
+   { href: '#debouches', label: 'Débouchés' },
+   { href: '#candidature', label: 'Candidature' },
+   { href: '#contact', label: 'Contact' },
+]
+
+// Les autres établissements du Groupe DGC-Formation
+const groupe = [
+   { href: 'https://www.dgc-congo.org', label: 'Groupe DGC' },
+   { href: 'https://esit.dgc-congo.org', label: 'ESIT' },
+   { href: 'http://esup.dgc-congo.org', label: 'ESUP' },
+   { href: 'https://ccpm.dgc-congo.org', label: 'CCPM' },
+]
+
+const heure = (h) => `${Number(h.slice(0, 2))}h${h.slice(3)}`
+
+const titre = 'text-xs font-bold uppercase tracking-[0.2em] text-white/40 mb-5'
+const lien = 'group inline-flex items-center text-white/65 hover:text-white transition'
 
 function Footer() {
-  return (
-    <footer className="bg-deep text-slate-300 mt-12">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-14 pb-8 grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1fr]">
-        <div>
-          <div className="flex items-center gap-2">
-            <img className="w-11 rounded-md" src={assets.logo} alt="logo" />
-            <span className="font-kaushan text-3xl text-white">ESGC</span>
-          </div>
-          <p className="mt-4 text-sm text-slate-400">
-            École Supérieure de Commerce et de Gestion — Zone industrielle, en face du Lycée Victor Augagneur, Pointe-Noire.
-          </p>
-          <p className="mt-6 text-xs font-semibold uppercase tracking-widest text-white">Suivez-nous</p>
-          <div className="mt-3 flex gap-3">
-            {socials.map((s) => (
-              <a key={s.label} href={s.href} aria-label={s.label} className="w-9 h-9 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-second transition">
-                <FontAwesomeIcon icon={s.icon} />
-              </a>
-            ))}
-          </div>
-        </div>
+   return (
+      <footer className='relative overflow-hidden mt-12 rounded-t-[2.5rem] md:rounded-t-[3.5rem] bg-gradient-to-br from-deep to-[#0f2944] text-white'>
+         {/* décor */}
+         <div className='absolute inset-0 pointer-events-none' aria-hidden='true'>
+            <div className='absolute -top-32 -left-24 w-[28rem] h-[28rem] rounded-full border border-white/5' />
+            <div className='absolute top-1/3 -right-40 w-[34rem] h-[34rem] rounded-full border border-white/5' />
+            <div className='absolute -top-16 right-1/4 w-80 h-64 bg-second/15 blur-3xl rounded-full' />
+         </div>
 
-        {footerSections.map((item, id) => (
-          <div key={id}>
-            <h2 className="text-white font-semibold mb-4">{item.title}</h2>
-            <ul className="space-y-2">
-              {item.items.map((it, idx) => (
-                <li key={idx} className="text-sm hover:text-second transition"><a href="#filiere">{it}</a></li>
-              ))}
-            </ul>
-          </div>
-        ))}
+         <motion.div className='relative max-w-7xl mx-auto px-6 sm:px-10 pt-14 pb-6' {...apparition('haut', 0, 0.8)}>
+            <div className='grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-[1.5fr_0.9fr_1.4fr_1.3fr] text-sm'>
+               {/* identité */}
+               <div className='col-span-2 lg:col-span-1'>
+                  <div className='flex items-center gap-3'>
+                     <img className='w-12 rounded-md' src={assets.logo} alt='logo ESGC' />
+                     <span>
+                        <span className='block font-kaushan text-3xl leading-none'>ESGC</span>
+                        <span className='block text-[11px] text-white/50 mt-1'>Pointe-Noire · Congo</span>
+                     </span>
+                  </div>
+                  <p className='mt-4 text-white/60 leading-relaxed max-w-xs'>
+                     École Supérieure de Commerce et de Gestion : 21 ans à former les professionnels du commerce et de la gestion.
+                  </p>
+                  <div className='mt-5'>
+                     <SocialLinks dark />
+                  </div>
+                  <p className='mt-6 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/40'>Le Groupe DGC-Formation</p>
+                  <div className='mt-2.5 flex flex-wrap gap-2'>
+                     {groupe.map((g) => (
+                        <a
+                           key={g.label}
+                           href={g.href}
+                           target='_blank'
+                           rel='noopener noreferrer'
+                           className='px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-white/70 hover:bg-second hover:border-second hover:text-white transition'
+                        >
+                           {g.label}
+                        </a>
+                     ))}
+                  </div>
+               </div>
 
-        <div>
-          <h2 className="text-white font-semibold mb-4">Horaires</h2>
-          <ul className="space-y-2 text-sm">
-            <li>Lun - Ven : 8h00 - 17h00</li>
-            <li>Samedi : 9h00 - 13h00</li>
-            <li className="pt-2">+242 05 796 08 50</li>
-            <li>contact@dgc-congo.org</li>
-          </ul>
-        </div>
-      </div>
+               {/* navigation */}
+               <div>
+                  <p className={titre}>Navigation</p>
+                  <ul className='space-y-2.5'>
+                     {navigation.map((n) => (
+                        <li key={n.href}>
+                           <a href={n.href} className={lien}>
+                              <span className='w-0 group-hover:w-3 group-hover:mr-2 h-px bg-second transition-all' />
+                              {n.label}
+                           </a>
+                        </li>
+                     ))}
+                  </ul>
+               </div>
 
-      <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400">
-          <p>© {new Date().getFullYear()} ESGC — Tous droits réservés.</p>
-          <a href="https://informatiky.com" rel="noopener" aria-label="Visitez le site du développeur Informatiky" target='_blank' className='hover:text-second transition'>Réalisé par : informatiky.com</a>
-        </div>
-      </div>
-    </footer>
-  );
+               {/* formations */}
+               <div>
+                  <p className={titre}>Nos formations</p>
+                  <ul className='space-y-2.5'>
+                     {formations.map((f) => (
+                        <li key={f.id}>
+                           <a href='#filiere' className={lien}>
+                              <span className='w-0 group-hover:w-3 group-hover:mr-2 h-px bg-second transition-all' />
+                              {f.titre}
+                           </a>
+                        </li>
+                     ))}
+                  </ul>
+               </div>
+
+               {/* contact */}
+               <div className='col-span-2 lg:col-span-1'>
+                  <p className={titre}>Contact</p>
+                  <ul className='space-y-3.5 text-white/65'>
+                     {ecole.telephones.map((t) => (
+                        <li key={t.tel}>
+                           <a href={`tel:${t.tel}`} className='flex items-start gap-3 hover:text-white transition'>
+                              <Phone className='w-4 h-4 mt-0.5 shrink-0 text-second' />
+                              <span>
+                                 <span className='block text-[11px] text-white/40'>{t.libelle}</span>
+                                 {t.numero}
+                              </span>
+                           </a>
+                        </li>
+                     ))}
+                     <li>
+                        <a href={`mailto:${ecole.email}`} className='flex items-start gap-3 hover:text-white transition'>
+                           <Mail className='w-4 h-4 mt-0.5 shrink-0 text-second' />
+                           {ecole.email}
+                        </a>
+                     </li>
+                     <li>
+                        <a href={ecole.itineraire} target='_blank' rel='noopener noreferrer' className='flex items-start gap-3 hover:text-white transition'>
+                           <MapPin className='w-4 h-4 mt-0.5 shrink-0 text-second' />
+                           {ecole.adresse.rue}, {ecole.adresse.ville}
+                        </a>
+                     </li>
+                     <li className='flex items-start gap-3'>
+                        <Clock className='w-4 h-4 mt-0.5 shrink-0 text-second' />
+                        <span>
+                           {ecole.horaires.map((h) => (
+                              <span key={h.jours} className='block'>
+                                 {h.jours} : {heure(h.ouverture)} – {heure(h.fermeture)}
+                              </span>
+                           ))}
+                        </span>
+                     </li>
+                  </ul>
+               </div>
+            </div>
+
+            <div className='mt-12 pt-5 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/50'>
+               <p>© {new Date().getFullYear()} ESGC — Groupe DGC-Formation. Tous droits réservés.</p>
+               <div className='flex items-center gap-5'>
+                  <a className='hover:text-white transition' href='https://informatiky.com' target='_blank' rel='noopener noreferrer'>
+                     Réalisé par informatiky.com
+                  </a>
+                  <a
+                     href='#home'
+                     aria-label='Revenir en haut de la page'
+                     className='w-9 h-9 rounded-full bg-white/10 border border-white/15 text-white flex items-center justify-center hover:bg-second hover:border-second transition'
+                  >
+                     <ArrowUp size={16} />
+                  </a>
+               </div>
+            </div>
+         </motion.div>
+      </footer>
+   )
 }
 
-export default Footer;
+export default Footer

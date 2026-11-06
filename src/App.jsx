@@ -1,22 +1,22 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { MotionConfig } from 'framer-motion'
 import Navbar from './component/Navbar'
 import Hero from './component/Hero'
 import About from './component/About'
 import Parcours from './component/Parcours'
-import CtaBanner from './component/CtaBanner'
 import Why from './component/Why'
 import Formations from './component/Formations'
 import Debouches from './component/Debouches'
+import Candidature from './component/Candidature'
 import JoinCta from './component/JoinCta'
-import Faq from './component/Faq'
 import ContactSection from './component/ContactSection '
 import Footer from './component/Footer'
 import { ToastContainer } from 'react-toastify'
 
 function App() {
-  const [prefillEmail, setPrefillEmail] = useState('')
-
   return (
+    // « réduire les animations » : les apparitions au défilement se limitent à un fondu
+    <MotionConfig reducedMotion="user">
     <div className='bg-white overflow-x-hidden'>
       <ToastContainer/>
       <Navbar />
@@ -24,16 +24,16 @@ function App() {
       <Hero />
       <About />
       <Parcours />
-      <CtaBanner onEmail={setPrefillEmail} />
       <Why />
       <Formations />
       <Debouches />
-      <Faq />
+      <Candidature />
       <JoinCta />
-      <ContactSection prefillEmail={prefillEmail} />
+      <ContactSection />
       </main>
       <Footer/>
     </div>
+    </MotionConfig>
   )
 }
 

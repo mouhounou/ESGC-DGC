@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 import { assets } from '../assets'
 import { Menu, X } from 'lucide-react'
 
+// Menu posé sur le hero : transparent en haut de page, blanc dès qu'on fait défiler
 function Navbar() {
-  const [change, setChange] = useState(false)
+  const [change, setChange] = useState(() => window.scrollY > 40)
   const [drawerOpen, setDrawerOpen] = useState(false)
 
   useEffect(() => {
@@ -17,22 +18,23 @@ function Navbar() {
 
   const links = [
     { href: '#home', label: 'Accueil' },
-    { href: '#apropos', label: 'À propos' },
     { href: '#pourquoi', label: 'Pourquoi ESGC' },
     { href: '#filiere', label: 'Formations' },
     { href: '#debouches', label: 'Débouchés' },
-    { href: '#faq', label: 'FAQ' },
+    { href: '#candidature', label: 'Candidature' },
     { href: '#contact', label: 'Contact' },
   ]
 
   return (
     <header
-      className={`${change ? 'shadow-md' : ''} sticky top-0 w-full z-40 bg-white/95 backdrop-blur transition-shadow duration-300`}
+      className={`fixed top-0 inset-x-0 z-40 transition-colors duration-300 ${
+        change ? 'bg-white/95 backdrop-blur shadow-md text-gray-700' : 'bg-transparent text-white'
+      }`}
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex items-center justify-between text-gray-700">
+      <div className={`max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between transition-all duration-300 ${change ? 'py-3' : 'py-5'}`}>
         <a href="#home" className="flex items-center gap-2">
           <img className="w-10 rounded-md" src={assets.logo} alt="logo" />
-          <span className="font-kaushan text-2xl text-first">ESGC</span>
+          <span className={`font-kaushan text-2xl transition-colors ${change ? 'text-first' : 'text-white'}`}>ESGC</span>
         </a>
 
         {/* Desktop Nav */}
@@ -41,7 +43,9 @@ function Navbar() {
             <a
               key={link.label}
               href={link.href}
-              className="px-3 py-1.5 rounded-full hover:bg-first/10 hover:text-first transition-colors duration-150"
+              className={`px-3 py-1.5 rounded-full transition-colors duration-150 ${
+                change ? 'hover:bg-first/10 hover:text-first' : 'text-white/90 hover:bg-white/15 hover:text-white'
+              }`}
             >
               {link.label}
             </a>
@@ -50,7 +54,9 @@ function Navbar() {
 
         <a
           href="#contact"
-          className="hidden lg:inline-flex items-center px-5 py-2 rounded-full bg-first text-white text-sm font-semibold hover:bg-second transition-colors duration-150"
+          className={`hidden lg:inline-flex items-center px-5 py-2 rounded-full text-white text-sm font-semibold transition-colors duration-150 ${
+            change ? 'bg-first hover:bg-second' : 'bg-second shadow-lg shadow-second/30 hover:bg-white hover:text-first'
+          }`}
         >
           S'inscrire
         </a>

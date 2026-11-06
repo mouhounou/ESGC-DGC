@@ -7,12 +7,13 @@ import {
 	faHandsHelping,
 	faLayerGroup,
 	faBuilding,
-	faMapLocationDot
+	faMapLocationDot,
+	faListCheck,
+	faFolderOpen,
+	faPaperPlane
 } from "@fortawesome/free-solid-svg-icons";
 
 import logo from "./logo.png";
-import accueil from "./com.png";
-import why from './wh.png'
 import compta from './compta.jpeg'
 import banque from './Banque.jpg'
 import logistique from './logistique.jpg'
@@ -21,18 +22,15 @@ import ressource from './ressource.jpg'
 import { formationsTexte } from '../data/content'
 
 export const assets = {
-	logo,
-   accueil,
-   why
+	logo
 };
 
 export const heroImage = negociation;
-export const aboutImage = ressource;
 
-// Chiffres et repères clés (section « À propos »)
+// Chiffres et repères clés (cartes animées sous le hero)
 export const chiffres = [
 	{
-		titre: "20+ ans",
+		titre: "21 ans",
 		description: "D'expérience dans la formation au commerce et à la gestion.",
 		icone: faCalendarCheck,
 	},
@@ -55,38 +53,6 @@ export const chiffres = [
 
 
 
-export const footerSections = [
-	{
-		title: "Comptabilité & Gestion",
-		items: [
-			"Comptabilité financière",
-			"Gestion financière",
-			"Audit et contrôle de gestion",
-		],
-		link: "/location",
-	},
-
-	{
-		title: "Banque & Assurance",
-		items: [
-			"Services bancaires",
-			"Gestion de crédits",
-			"Souscription d'assurances",
-			"Gestion des risques",
-		],
-		link: "/vente",
-	},
-	{
-		title: "Ressources Humaines",
-		items: [
-			"Recrutement",
-			"Gestion des talents",
-			"Formation",
-			"Gestion de la paie",
-		],
-		link: "/gestion",
-	},
-];
 
 // Formations : textes dans src/data/content.js, images ici
 const imagesFormations = {
@@ -112,7 +78,7 @@ export const raisons = [
 		icone: faBriefcase,
 	},
 	{
-		titre: "20 ans d’expérience",
+		titre: "21 ans d’expérience",
 		description:
 			"Une école reconnue, solide et bien implantée à Pointe-Noire.",
 		icone: faCalendarCheck,
@@ -136,3 +102,22 @@ export const raisons = [
 	// },
 ];
  
+
+// Étapes de candidature (section Candidature, même parcours que sur le site de l'ESIT)
+export const etapes = [
+	{
+		titre: "Choisissez votre filière",
+		description: `Parcourez nos ${formationsTexte.length} filières et leurs débouchés pour trouver la voie qui vous correspond.`,
+		icon: faListCheck,
+	},
+	{
+		titre: "Préparez votre dossier",
+		description: "Rassemblez les pièces demandées selon votre niveau d'entrée. Notre secrétariat vous en donne la liste.",
+		icon: faFolderOpen,
+	},
+	{
+		titre: "Déposez votre candidature",
+		description: "Déposez votre dossier au secrétariat de l'ESGC, en face du Lycée Victor Augagneur à Pointe-Noire.",
+		icon: faPaperPlane,
+	},
+];

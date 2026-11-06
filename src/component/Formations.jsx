@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleCheck, faLayerGroup, faBriefcase, faBuilding, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { motion, AnimatePresence } from 'framer-motion'
+import { apparition } from '../lib/apparition'
 
 function Formations() {
    const [selected, setSelected] = useState('')
@@ -33,18 +34,17 @@ function Formations() {
    return (
       <section id="filiere" className="bg-slate-100/70 py-16">
          <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col items-center">
-         <Eyebrow>Nos formations</Eyebrow>
-         <h2 className="mt-3 font-kaushan text-3xl md:text-5xl text-first text-center">Découvrez nos parcours</h2>
-         <p className="text-gray-500 text-center mt-4 max-w-xl">Découvrez nos 5 parcours de formation spécialisés, pensés pour les secteurs qui recrutent.</p>
+         <motion.div className="flex flex-col items-center" {...apparition('flou')}>
+            <Eyebrow>Nos formations</Eyebrow>
+            <h2 className="mt-3 font-kaushan text-3xl md:text-5xl text-first text-center">Découvrez nos parcours</h2>
+            <p className="text-gray-500 text-center mt-4 max-w-xl">Découvrez nos 5 parcours de formation spécialisés, pensés pour les secteurs qui recrutent.</p>
+         </motion.div>
 
          <div className="w-full mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {formations.map((item, index) => (
                <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  {...apparition('haut', (index % 3) * 0.1)}
                   className="group flex flex-col bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition overflow-hidden h-full p-3"
                >
                   <div className="overflow-hidden rounded-xl">

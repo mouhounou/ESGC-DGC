@@ -1,75 +1,116 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react'
-import { assets, raisons } from '../assets'
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react'
+import { raisons } from '../assets'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { ChevronRight } from 'lucide-react'
 import { Eyebrow } from './Title'
+import WhyScene from './WhyScene'
+import { apparition } from '../lib/apparition'
 
+// Durée d'affichage de chaque atout en lecture automatique
+const DUREE = 4000
+
+const REDUIT = '(prefers-reduced-motion: reduce)'
+const abonnerReduit = (cb) => {
+   const mq = window.matchMedia(REDUIT)
+   mq.addEventListener('change', cb)
+   return () => mq.removeEventListener('change', cb)
+}
+
+// Campus 3D à gauche, atouts à droite : survoler ou choisir un atout le met en avant dans la scène
 function Why() {
+   const scene = useRef(null)
    const [active, setActive] = useState(0)
+   const [auto, setAuto] = useState(true) // coupée dès que l'utilisateur choisit un atout
+   const [survol, setSurvol] = useState(false) // pause tant que la souris est sur la section
+   const [charger, setCharger] = useState(false)
+   const [visible, setVisible] = useState(false)
+   const reduit = useSyncExternalStore(abonnerReduit, () => window.matchMedia(REDUIT).matches, () => false)
+
+   // three.js se charge à l'approche de la section, et le rendu se met en pause hors écran
+   useEffect(() => {
+      const el = scene.current
+      const proche = new IntersectionObserver(([e]) => e.isIntersecting && setCharger(true), { rootMargin: '400px' })
+      const vu = new IntersectionObserver(([e]) => setVisible(e.isIntersecting))
+      proche.observe(el)
+      vu.observe(el)
+      return () => {
+         proche.disconnect()
+         vu.disconnect()
+      }
+   }, [])
+
+   // Lecture automatique : la scène présente les atouts l'un après l'autre
+   const lecture = auto && visible && !survol && !reduit
+   useEffect(() => {
+      if (!lecture) return
+      const id = setTimeout(() => setActive((a) => (a + 1) % raisons.length), DUREE)
+      return () => clearTimeout(id)
+   }, [lecture, active])
+
+   const choisir = (i) => {
+      setActive(i)
+      setAuto(false)
+   }
 
    return (
-      <section id='pourquoi' className='max-w-7xl mx-auto px-4 md:px-8 py-16'>
-         <div className='grid lg:grid-cols-3 gap-10 items-center'>
-            <motion.div
-               initial={{ opacity: 0, y: 30 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               viewport={{ once: true }}
-               transition={{ duration: 0.7, ease: 'easeOut' }}
-               className='relative'
-            >
-               <div className='rounded-3xl bg-gradient-to-b from-first/15 to-second/20 overflow-hidden h-[360px] flex items-end justify-center'>
-                  <img className='h-[340px] object-contain' src={assets.why} alt="Étudiante en réflexion" />
-               </div>
-               <div className='absolute left-4 bottom-6 bg-deep text-white rounded-2xl px-5 py-4 shadow-xl'>
-                  <p className='text-xs text-white/70'>Une école reconnue</p>
-                  <p className='text-3xl font-bold text-second'>20+ ans</p>
-                  <p className='text-xs text-white/70'>d'expérience</p>
-               </div>
+      <section
+         id='pourquoi'
+         onPointerEnter={(e) => e.pointerType === 'mouse' && setSurvol(true)}
+         onPointerLeave={() => setSurvol(false)}
+         className='max-w-7xl mx-auto px-4 md:px-8 py-16'
+      >
+         <motion.div className='max-w-2xl mx-auto text-center' {...apparition('flou')}>
+            <Eyebrow>Nos atouts</Eyebrow>
+            <h2 className='mt-3 font-kaushan text-3xl md:text-5xl text-first leading-tight'>Pourquoi choisir ESGC ?</h2>
+            <p className='mt-4 text-gray-500'>
+               Située à Pointe-Noire et forte de 21 ans d'expérience, notre école est un espace d'apprentissage
+               dynamique, axé sur l'innovation, l'excellence et l'insertion professionnelle.
+            </p>
+         </motion.div>
+
+         <div className='mt-10 grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-8 items-center'>
+            <motion.div ref={scene} className='min-w-0' {...apparition('zoom', 0.1)}>
+               <WhyScene items={raisons} active={active} onSelect={choisir} charger={charger} visible={visible} reducedMotion={reduit} />
             </motion.div>
 
-            <div>
-               <Eyebrow>Nos atouts</Eyebrow>
-               <h2 className='mt-3 font-kaushan text-3xl md:text-5xl text-first leading-tight'>Pourquoi choisir ESGC ?</h2>
-               <p className='text-gray-500 mt-5'>
-                  Située à Pointe-Noire et forte de plus de 20 ans d'expérience, notre école est un espace d'apprentissage
-                  dynamique, axé sur l'innovation, l'excellence et l'insertion professionnelle.
-               </p>
-            </div>
-
-            {/* Accordéon des raisons */}
-            <div className='flex flex-col gap-3'>
+            <ul className='flex flex-col gap-3'>
                {raisons.map((item, id) => {
-                  const isOpen = active === id
+                  const on = id === active
                   return (
-                     <div key={id} className={`rounded-xl border transition ${isOpen ? 'bg-deep border-deep text-white' : 'bg-white border-gray-200 text-gray-700'}`}>
+                     <motion.li key={item.titre} className='relative' {...apparition('droite', id * 0.06)}>
                         <button
-                           onClick={() => setActive(isOpen ? -1 : id)}
-                           className='w-full flex items-center justify-between gap-3 px-4 py-3 text-left font-semibold text-sm cursor-pointer'
+                           type='button'
+                           onMouseEnter={() => setActive(id)}
+                           onClick={() => choisir(id)}
+                           aria-pressed={on}
+                           className={`group w-full text-left flex items-center gap-4 px-4 py-4 rounded-2xl border overflow-hidden relative cursor-pointer transition-colors ${
+                              on ? 'bg-deep border-deep text-white shadow-lg shadow-deep/20' : 'bg-white border-gray-200 text-gray-700 hover:border-first/40'
+                           }`}
                         >
-                           <span className='flex items-center gap-3'>
-                              <FontAwesomeIcon className='text-second' icon={item.icone} />
-                              {item.titre}
+                           <span className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-colors ${on ? 'bg-second text-white' : 'bg-second/15 text-second'}`}>
+                              <FontAwesomeIcon icon={item.icone} />
                            </span>
-                           <FontAwesomeIcon icon={faChevronDown} className={`text-xs transition-transform ${isOpen ? 'rotate-180' : ''}`} />
-                        </button>
-                        <AnimatePresence initial={false}>
-                           {isOpen && (
-                              <motion.p
-                                 initial={{ height: 0, opacity: 0 }}
-                                 animate={{ height: 'auto', opacity: 1 }}
-                                 exit={{ height: 0, opacity: 0 }}
-                                 className='px-4 pb-4 text-sm text-white/80 overflow-hidden'
-                              >
-                                 {item.description}
-                              </motion.p>
+                           <span className='flex-1'>
+                              <span className={`block font-semibold ${on ? 'text-white' : 'text-gray-800'}`}>{item.titre}</span>
+                              <span className={`block mt-1 text-sm leading-relaxed ${on ? 'text-white/75' : 'text-gray-500'}`}>{item.description}</span>
+                           </span>
+                           <ChevronRight className={`shrink-0 transition-transform ${on ? 'text-second translate-x-1' : 'text-gray-400 group-hover:translate-x-1'}`} />
+                           {/* progression de la lecture automatique */}
+                           {on && lecture && (
+                              <span
+                                 key={active}
+                                 className='absolute left-0 right-0 bottom-0 h-1 bg-second origin-left'
+                                 style={{ animation: `remplir ${DUREE}ms linear forwards` }}
+                                 aria-hidden='true'
+                              />
                            )}
-                        </AnimatePresence>
-                     </div>
+                        </button>
+                     </motion.li>
                   )
                })}
-            </div>
+            </ul>
          </div>
       </section>
    )
