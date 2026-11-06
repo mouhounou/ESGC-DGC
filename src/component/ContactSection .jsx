@@ -5,7 +5,8 @@ import GoogleMapEmbed from './GoogleMapEmbed'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import {HashLoader} from 'react-spinners'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import Turnstile from './Turnstile'
 import { Eyebrow } from './Title'
 
 
@@ -31,6 +32,8 @@ const ContactSection = ({ prefillEmail }) => {
     const [subject, setSubject] = useState('')
     const [message, setMessage] = useState('')
     const [loading, setLoading] = useState(false)
+    const [captcha, setCaptcha] = useState('') // jeton Cloudflare Turnstile
+    const turnstile = useRef(null)
 
     // email saisi dans le bandeau d'appel à l'action
     useEffect(() => {
@@ -56,7 +59,18 @@ const ContactSection = ({ prefillEmail }) => {
           return
         }
   
-        const res = await axios.post('https://api-q0vq.onrender.com/api/mail/mailler', { name, phone, email, subject, message })
+        if (!captcha) {
+          toast.error("Merci de confirmer que vous n'êtes pas un robot.")
+          setLoading(false)
+          return
+        }
+
+        const res = await axios.post('https://api.dgc.informatiky.com/api/mail/mailler', {
+          name, phone, email, subject, message,
+          site: 'esgc', // e-mails envoyés au nom de l'ESGC
+          turnstileToken: captcha, // vérifié par l'API auprès de Cloudflare
+        })
+        turnstile.current?.reset() // un jeton ne sert qu'une fois
         console.log('====================================');
         console.log(res.data);
         console.log('====================================');
@@ -75,7 +89,8 @@ const ContactSection = ({ prefillEmail }) => {
         }
   
       } catch (err) {
-        toast.error(err.message)
+        turnstile.current?.reset()
+        toast.error(err.response?.data?.message || 'Une erreur est survenue. Veuillez réessayer.')
         setLoading(false)
         console.log('====================================');
         console.log(err.message);
@@ -225,6 +240,7 @@ const ContactSection = ({ prefillEmail }) => {
                 required
                 id="message" rows="4" className="w-full border border-gray-200 rounded-xl p-2.5 outline-none focus:border-first" />
             </div>
+            <Turnstile ref={turnstile} onToken={setCaptcha} action="contact" />
             {
               loading ? 
                 <div className='w-full py-3 flex items-center justify-center'>
